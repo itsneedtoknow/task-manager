@@ -9,16 +9,19 @@ interface TaskData {
 }
 interface TaskListProps {
   data: TaskData[];
+  onDeleteTask: (id: string) => void;
 }
-export function TaskList({ data }: TaskListProps) {
+export function TaskList({ data, onDeleteTask }: TaskListProps) {
   return (
     <ul className={styles.taskList}>
       {data.map((item) => (
         <TaskItem
+          key={item.id}
           id={item.id}
           name={item.title}
           description={item.description}
           priority={item.priority}
+          onDeleteTask={onDeleteTask}
         />
       ))}
     </ul>

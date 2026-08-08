@@ -7,13 +7,23 @@ interface TaskItemProps {
   name: string;
   description: string;
   priority: "high" | "middle" | "low";
+  onDeleteTask: (id: string) => void;
 }
 
-export function TaskItem({ name, priority, description }: TaskItemProps) {
+export function TaskItem({
+  name,
+  priority,
+  description,
+  id,
+  onDeleteTask,
+}: TaskItemProps) {
   const priorityClass = styles[`priority-${priority}`];
 
+  function deleteItemHandler() {
+    onDeleteTask(id);
+  }
   return (
-    <li className={styles.taskItem}>
+    <li className={styles.taskItem} key={id}>
       <p className={styles.itemName}>{name}</p>
       <p className={`${styles.itemPriority} ${priorityClass}`}>{priority}</p>
 
@@ -25,6 +35,7 @@ export function TaskItem({ name, priority, description }: TaskItemProps) {
           title="Delete"
           children={<HiTrash />}
           className={`${styles.btnDelete} `}
+          onClick={deleteItemHandler}
         />
 
         <select>
