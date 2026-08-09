@@ -10,7 +10,7 @@ interface TaskData {
 interface TaskListProps {
   data: TaskData[];
   onDeleteTask: (id: string) => void;
-  onEditTask: () => void;
+  onEditTask: (id: string) => void;
 }
 export function TaskList({ data, onDeleteTask, onEditTask }: TaskListProps) {
   return (

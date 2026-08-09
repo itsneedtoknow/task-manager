@@ -5,40 +5,25 @@ import { Button } from "../components/Button.tsx";
 import { createPortal } from "react-dom";
 import { Modal } from "../components/Modal.tsx";
 import type { NewTask } from "../features/tasks/types.tsx";
+import {
+  useAddTask,
+  useDeleteTask,
+  useTasks,
+  useUpdateTask,
+} from "../features/tasks/useTaskQueries.tsx";
 export function TasksPage() {
-  const dummyTasks = [
-    {
-      id: "1",
-      title: "Изучить CSS-модули в React",
-      description:
-        "Разобраться с изоляцией стилей, глобальными классами и динамическим изменением стилей через пропсы.",
-      priority: "high" as const,
-    },
-    {
-      id: "2",
-      title: "Сходить за продуктами",
-      description:
-        "Купить молоко, хлеб, свежие овощи для салата и куриную грудку для ужина.",
-      priority: "low" as const,
-    },
-    {
-      id: "3",
-      title: "Настроить json-server",
-      description:
-        "Создать файл db.json в корне проекта и прописать скрипты для запуска mock-сервера.",
-      priority: "middle" as const,
-    },
-  ];
-  const [tasks, setTasks] = useState(dummyTasks);
+  const { data: tasks = [], isLoading, isError } = useTasks();
+
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [editTask, setEditTask] = useState<NewTask | null>(null);
-
+  const { mutate: addTask } = useAddTask();
+  const { mutate: deleteTask } = useDeleteTask();
+  const { mutate: updateTask } = useUpdateTask();
   function deleteTaskHandler(id: string) {
-    setTasks(tasks.filter((item) => item.id !== id));
+    deleteTask(id);
   }
-
   function addTaskHandler(newTask: NewTask) {
-    setTasks([...tasks, newTask]);
+    addTask(newTask);
     closeAddTaskModalHandler();
     setEditTask(null);
   }
@@ -54,9 +39,7 @@ export function TasksPage() {
     if (!updatedTask) {
       return;
     } else {
-      setTasks(
-        tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
-      );
+      updateTask(updatedTask);
       closeAddTaskModalHandler();
       setEditTask(null);
     }
@@ -67,6 +50,22 @@ export function TasksPage() {
   function closeAddTaskModalHandler() {
     setEditTask(null);
     setIsTaskModalOpen(false);
+  }
+  if (isLoading) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h2>The list is loading...</h2>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div style={{ padding: "20px", color: "red" }}>
+        <h2>Error loading tasks!</h2>
+        <p>Please check if your json-server is running on port 3001.</p>
+      </div>
+    );
   }
   return (
     <main>
