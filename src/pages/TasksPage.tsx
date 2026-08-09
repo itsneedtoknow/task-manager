@@ -1,5 +1,10 @@
 import { useState } from "react";
 import { TaskList } from "../features/tasks/components/TaskList.tsx";
+import { TaskForm } from "../features/tasks/components/TaskForm.tsx";
+import { Button } from "../components/Button.tsx";
+import { createPortal } from "react-dom";
+import { Modal } from "../components/Modal.tsx";
+import type { NewTask } from "../features/tasks/types.tsx";
 export function TasksPage() {
   const dummyTasks = [
     {
@@ -25,33 +30,63 @@ export function TasksPage() {
     },
   ];
   const [tasks, setTasks] = useState(dummyTasks);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [editTask, setEditTask] = useState<NewTask | null>(null);
+
   function deleteTaskHandler(id: string) {
     setTasks(tasks.filter((item) => item.id !== id));
+  }
+
+  function addTaskHandler(newTask: NewTask) {
+    setTasks([...tasks, newTask]);
+    closeAddTaskModalHandler();
+    setEditTask(null);
+  }
+  function editTaskHandler(id: string) {
+    const taskToEdit = tasks.find((item) => item.id === id);
+    if (!taskToEdit) {
+      return;
+    }
+    setEditTask(taskToEdit);
+    openTaskModalHandler();
+  }
+  function updateTasksHandler(updatedTask: NewTask) {
+    if (!updatedTask) {
+      return;
+    } else {
+      setTasks(
+        tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
+      );
+      closeAddTaskModalHandler();
+      setEditTask(null);
+    }
+  }
+  function openTaskModalHandler() {
+    setIsTaskModalOpen(true);
+  }
+  function closeAddTaskModalHandler() {
+    setEditTask(null);
+    setIsTaskModalOpen(false);
   }
   return (
     <main>
       <h1> Task-manager</h1>
-      <section className="add-form">
-        <form>
-          <label htmlFor="task-name">
-            Task name
-            <input type="text" name="" id="task-name" />
-          </label>
-          <label htmlFor="task-priority">
-            Priority
-            <select id="task-priority">
-              <option value="">High</option>
-              <option value="">Mid</option>
-              <option value="">Low</option>
-            </select>
-          </label>
-          <label htmlFor="task-description">
-            Description
-            <textarea id="task-description"></textarea>
-          </label>
-          <button type="submit">Create</button>
-        </form>
-      </section>
+      <Button children={"Add a task"} onClick={openTaskModalHandler} />
+      {isTaskModalOpen &&
+        createPortal(
+          <Modal
+            closeAddTaskModalHandler={closeAddTaskModalHandler}
+            children={
+              <TaskForm
+                onAddTask={addTaskHandler}
+                editTask={editTask}
+                onUpdateTask={updateTasksHandler}
+              />
+            }
+          />,
+          document.body,
+        )}
+
       <section>
         <div className="container-wrapper">
           <form>
@@ -62,7 +97,11 @@ export function TasksPage() {
       <section className="tasks">
         <div className="container-wrapper">
           <ul className="task-list">
-            <TaskList data={tasks} onDeleteTask={deleteTaskHandler} />
+            <TaskList
+              data={tasks}
+              onDeleteTask={deleteTaskHandler}
+              onEditTask={editTaskHandler}
+            />
           </ul>
         </div>
       </section>

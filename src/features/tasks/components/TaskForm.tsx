@@ -1,35 +1,46 @@
 import { useState } from "react";
-import styles from "./TaskAddForm.module.css";
-interface newTask {
-  title: string;
-  description: string;
-  priority: "high" | "middle" | "low";
-  id: string;
-}
-interface TaskAddFormProps {
-  onAddTask: (newTask: newTask) => void;
+import styles from "./TaskForm.module.css";
+import type { NewTask } from "../types";
+
+interface TaskFormProps {
+  onAddTask: (newTask: NewTask) => void;
+  editTask?: NewTask | null;
+  onUpdateTask: (newTask: NewTask) => void;
 }
 
-export function TaskAddForm({ onAddTask }: TaskAddFormProps) {
-  const [taskName, setTaskName] = useState("");
+export function TaskForm({ onAddTask, editTask, onUpdateTask }: TaskFormProps) {
+  const [taskName, setTaskName] = useState(editTask ? editTask.title : "");
   const [taskPriority, setTaskPriority] = useState<"high" | "middle" | "low">(
-    "high",
+    editTask ? editTask.priority : "high",
   );
-  const [taskDescription, setTaskDescription] = useState("");
+  const [taskDescription, setTaskDescription] = useState(
+    editTask ? editTask.description : "",
+  );
 
   function addTask(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-    const newTask = {
-      title: taskName,
-      description: taskDescription,
-      priority: taskPriority,
-      id: crypto.randomUUID(),
-    };
-    onAddTask(newTask);
+    if (editTask) {
+      const updatedTask = {
+        title: taskName,
+        description: taskDescription,
+        priority: taskPriority,
+        id: editTask.id,
+      };
+      onUpdateTask(updatedTask);
+    } else {
+      const newTask = {
+        title: taskName,
+        description: taskDescription,
+        priority: taskPriority,
+        id: crypto.randomUUID(),
+      };
+      onAddTask(newTask);
+    }
     setTaskName("");
     setTaskDescription("");
     setTaskPriority("high");
   }
+
   return (
     <form
       className={styles.formContainer}
