@@ -1,4 +1,11 @@
 {
-  "tasks": [],
+  "tasks": [
+    {
+      "title": "Brush the teeth",
+      "description": "2 minutes or more",
+      "priority": "high",
+      "id": "j5AA4aJObz8"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

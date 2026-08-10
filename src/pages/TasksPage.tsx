@@ -1,56 +1,23 @@
-import { useState } from "react";
 import { TaskList } from "../features/tasks/components/TaskList.tsx";
 import { TaskForm } from "../features/tasks/components/TaskForm.tsx";
 import { Button } from "../components/Button.tsx";
 import { createPortal } from "react-dom";
 import { Modal } from "../components/Modal.tsx";
-import type { NewTask } from "../features/tasks/types.tsx";
-import {
-  useAddTask,
-  useDeleteTask,
-  useTasks,
-  useUpdateTask,
-} from "../features/tasks/useTaskQueries.tsx";
+import { useTaskHandlers } from "../features/tasks/hooks/useTaskHandlers.tsx";
 export function TasksPage() {
-  const { data: tasks = [], isLoading, isError } = useTasks();
-
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
-  const [editTask, setEditTask] = useState<NewTask | null>(null);
-  const { mutate: addTask } = useAddTask();
-  const { mutate: deleteTask } = useDeleteTask();
-  const { mutate: updateTask } = useUpdateTask();
-  function deleteTaskHandler(id: string) {
-    deleteTask(id);
-  }
-  function addTaskHandler(newTask: NewTask) {
-    addTask(newTask);
-    closeAddTaskModalHandler();
-    setEditTask(null);
-  }
-  function editTaskHandler(id: string) {
-    const taskToEdit = tasks.find((item) => item.id === id);
-    if (!taskToEdit) {
-      return;
-    }
-    setEditTask(taskToEdit);
-    openTaskModalHandler();
-  }
-  function updateTasksHandler(updatedTask: NewTask) {
-    if (!updatedTask) {
-      return;
-    } else {
-      updateTask(updatedTask);
-      closeAddTaskModalHandler();
-      setEditTask(null);
-    }
-  }
-  function openTaskModalHandler() {
-    setIsTaskModalOpen(true);
-  }
-  function closeAddTaskModalHandler() {
-    setEditTask(null);
-    setIsTaskModalOpen(false);
-  }
+  const {
+    tasks,
+    isLoading,
+    isError,
+    isTaskModalOpen,
+    editTask,
+    deleteTaskHandler,
+    addTaskHandler,
+    editTaskHandler,
+    updateTasksHandler,
+    openTaskModalHandler,
+    closeAddTaskModalHandler,
+  } = useTaskHandlers();
   if (isLoading) {
     return (
       <div style={{ padding: "20px" }}>
