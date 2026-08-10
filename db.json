@@ -13,32 +13,11 @@
       "id": "BBTXf4tbxtM"
     },
     {
-      "title": "blabla",
-      "description": ",m.m,,,,,,ssss",
-      "priority": "middle",
-      "id": "aJi4wmJRFiI",
-      "status": "done"
-    },
-    {
-      "title": "st",
-      "description": ",m.m,,,,,,ssss",
-      "priority": "middle",
-      "status": "in progress",
-      "id": "aJi4wmFiI"
-    },
-    {
-      "title": "new task",
-      "description": "s;;smmrk",
+      "title": "Some new task ",
+      "description": "with low priority",
       "priority": "low",
       "status": "to do",
-      "id": "qgGRolKKxlg"
-    },
-    {
-      "title": "rrrrrrrrrrr",
-      "description": "",
-      "priority": "high",
-      "status": "in progress",
-      "id": "R14Q248l6B4"
+      "id": "LboPzf_pOyA"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

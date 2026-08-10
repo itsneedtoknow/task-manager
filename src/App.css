@@ -1,7 +1,13 @@
-header {
-  .container-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+header .container-wrapper,
+.search-panel .container-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.search-panel .container-wrapper {
+  justify-content: left;
+}
+.search-panel form {
+  max-width: 70%;
+  margin-right: 32px;
 }

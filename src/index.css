@@ -1,11 +1,18 @@
+* {
+  box-sizing: border-box;
+}
 .container-wrapper {
   max-width: 1520px;
   margin: 0 auto;
 }
 form {
   /* max-width: 80%; */
-  margin: 0 auto;
+  /* margin: 0 auto; */
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+input {
+  height: 48px;
+  padding: 8px 16px;
 }

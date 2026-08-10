@@ -15,6 +15,7 @@ export function TasksPage() {
     isError,
     isTaskModalOpen,
     editTask,
+    priorityFilter,
     deleteTaskHandler,
     addTaskHandler,
     editTaskHandler,
@@ -22,6 +23,7 @@ export function TasksPage() {
     openTaskModalHandler,
     closeAddTaskModalHandler,
     updateTaskStatusHandler,
+    filterTasksByPriorityHandler,
   } = useTaskPageHandlers();
   if (isLoading) {
     return (
@@ -63,16 +65,20 @@ export function TasksPage() {
       </header>
       <main>
         <section className="search-panel">
-          <TaskSearch search={search} setSearch={setSearch} />
+          <div className="container-wrapper">
+            <TaskSearch search={search} setSearch={setSearch} />
 
-          <Select
-            options={[
-              { value: "", label: "All priorities" },
-              { value: "low", label: "Low" },
-              { value: "medium", label: "Medium" },
-              { value: "high", label: "High" },
-            ]}
-          />
+            <Select
+              value={priorityFilter}
+              onChange={filterTasksByPriorityHandler}
+              options={[
+                { value: "", label: "All priorities" },
+                { value: "low", label: "Low" },
+                { value: "medium", label: "Medium" },
+                { value: "high", label: "High" },
+              ]}
+            />
+          </div>
         </section>
         <section className="tasks">
           <div className="container-wrapper">

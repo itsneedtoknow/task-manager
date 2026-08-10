@@ -16,6 +16,9 @@ export function useTaskPageHandlers() {
   const [taskStatus, setTaskStatus] = useState<
     "to do" | "in progress" | "done"
   >(editTask ? editTask.status : "to do");
+  const [priorityFilter, setPriorityFilter] = useState<
+    "" | "low" | "middle" | "high"
+  >("");
   const { mutate: addTask } = useAddTask();
   const { mutate: deleteTask } = useDeleteTask();
   const { mutate: updateTask } = useUpdateTask();
@@ -59,6 +62,22 @@ export function useTaskPageHandlers() {
 
     updateTask(updatedTask);
   }
+
+  // function filterTasksByPriorityHandler(
+  //   e: React.ChangeEvent<HTMLSelectElement>,
+  // ) {
+  //   const newPriority = e.target.value as "low" | "middle" | "high";
+  //   const filteredTasks = tasks.filter((item) => item.priority === newPriority);
+  // }
+  function filterTasksByPriorityHandler(
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) {
+    setPriorityFilter(e.target.value as "" | "low" | "middle" | "high");
+  }
+  const filteredTasks = tasks.filter((task) => {
+    if (priorityFilter === "") return true; // Если "All", показываем всё
+    return task.priority === priorityFilter;
+  });
   function openTaskModalHandler() {
     setIsTaskModalOpen(true);
   }
@@ -68,8 +87,9 @@ export function useTaskPageHandlers() {
   }
 
   return {
-    tasks,
+    tasks: filteredTasks,
     search,
+    priorityFilter,
     isLoading,
     isError,
     isTaskModalOpen,
@@ -84,5 +104,6 @@ export function useTaskPageHandlers() {
     closeAddTaskModalHandler,
     setTaskStatus,
     updateTaskStatusHandler,
+    filterTasksByPriorityHandler,
   };
 }

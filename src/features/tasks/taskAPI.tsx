@@ -1,10 +1,21 @@
 import type { NewTask } from "./types";
 const URL = "http://localhost:3000/tasks";
-export async function fetchTasks(searchQuery: string): Promise<NewTask[]> {
-  const url = searchQuery
-    ? `http://localhost:3000/tasks?title:contains=${encodeURIComponent(searchQuery)}`
-    : "http://localhost:3000/tasks";
-  console.log(url);
+export async function fetchTasks(
+  searchQuery?: string,
+  statusQuery?: string,
+): Promise<NewTask[]> {
+  let url;
+  if (searchQuery) {
+    url = `http://localhost:3000/tasks?title:contains=${encodeURIComponent(searchQuery)}`;
+  } else if (statusQuery) {
+    url = `http://localhost:3000/tasks?status:contains=${encodeURIComponent(statusQuery)}`;
+  } else {
+    url = "http://localhost:3000/tasks";
+  }
+  // = searchQuery
+  //   ? `http://localhost:3000/tasks?title:contains=${encodeURIComponent(searchQuery)}`
+  //   : "http://localhost:3000/tasks";
+
   const taskData = await fetch(url);
   const tasks = await taskData.json();
   return tasks;
