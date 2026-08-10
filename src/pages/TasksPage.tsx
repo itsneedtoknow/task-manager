@@ -74,7 +74,7 @@ export function TasksPage() {
               options={[
                 { value: "", label: "All priorities" },
                 { value: "low", label: "Low" },
-                { value: "medium", label: "Medium" },
+                { value: "middle", label: "Middle" },
                 { value: "high", label: "High" },
               ]}
             />
