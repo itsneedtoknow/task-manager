@@ -3,10 +3,13 @@ import { TaskForm } from "../features/tasks/components/TaskForm.tsx";
 import { Button } from "../components/Button.tsx";
 import { createPortal } from "react-dom";
 import { Modal } from "../components/Modal.tsx";
-import { useTaskHandlers } from "../features/tasks/hooks/useTaskHandlers.tsx";
+import { useTaskPageHandlers } from "../features/tasks/hooks/useTaskPageHandlers.tsx";
+import { TaskSearch } from "../features/tasks/components/TaskSearch.tsx";
 export function TasksPage() {
   const {
     tasks,
+    search,
+    setSearch,
     isLoading,
     isError,
     isTaskModalOpen,
@@ -17,7 +20,7 @@ export function TasksPage() {
     updateTasksHandler,
     openTaskModalHandler,
     closeAddTaskModalHandler,
-  } = useTaskHandlers();
+  } = useTaskPageHandlers();
   if (isLoading) {
     return (
       <div style={{ padding: "20px" }}>
@@ -53,13 +56,7 @@ export function TasksPage() {
           document.body,
         )}
 
-      <section>
-        <div className="container-wrapper">
-          <form>
-            <input type="text" />
-          </form>
-        </div>
-      </section>
+      <TaskSearch search={search} setSearch={setSearch} />
       <section className="tasks">
         <div className="container-wrapper">
           <ul className="task-list">

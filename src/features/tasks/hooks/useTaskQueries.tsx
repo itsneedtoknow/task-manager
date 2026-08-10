@@ -1,10 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { addTask, deleteTask, fetchTasks, updateTask } from "../taskAPI";
 
-export function useTasks() {
+export function useTasks(searchQuery: string) {
   return useQuery({
-    queryKey: ["tasks"],
-    queryFn: fetchTasks,
+    queryKey: ["tasks", searchQuery],
+
+    queryFn: () => fetchTasks(searchQuery),
   });
 }
 

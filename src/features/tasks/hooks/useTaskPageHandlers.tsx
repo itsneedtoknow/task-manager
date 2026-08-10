@@ -6,8 +6,11 @@ import {
   useTasks,
   useUpdateTask,
 } from "./useTaskQueries.tsx";
-export function useTaskHandlers() {
-  const { data: tasks = [], isLoading, isError } = useTasks();
+import { useDebounce } from "./useDebounce.tsx";
+export function useTaskPageHandlers() {
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search);
+  const { data: tasks = [], isLoading, isError } = useTasks(debouncedSearch);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [editTask, setEditTask] = useState<NewTask | null>(null);
   const { mutate: addTask } = useAddTask();
@@ -47,6 +50,8 @@ export function useTaskHandlers() {
   }
   return {
     tasks,
+    search,
+    setSearch,
     isLoading,
     isError,
     isTaskModalOpen,

@@ -5,7 +5,12 @@
       "description": "2 minutes or more",
       "priority": "high",
       "id": "j5AA4aJObz8"
+    },
+    {
+      "title": "Buy a cardigan",
+      "description": "very beautiful",
+      "priority": "high",
+      "id": "BBTXf4tbxtM"
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  ]
 }
