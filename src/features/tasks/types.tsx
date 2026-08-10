@@ -3,4 +3,11 @@ export interface NewTask {
   description: string;
   priority: "high" | "middle" | "low";
   id: string;
+  status: "to do" | "in progress" | "done";
+}
+export interface SelectType {
+  id?: string;
+  value?: string;
+  options: { value: string; label: string }[];
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
