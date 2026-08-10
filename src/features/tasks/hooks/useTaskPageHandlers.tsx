@@ -13,9 +13,13 @@ export function useTaskPageHandlers() {
   const { data: tasks = [], isLoading, isError } = useTasks(debouncedSearch);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [editTask, setEditTask] = useState<NewTask | null>(null);
+  const [taskStatus, setTaskStatus] = useState<
+    "to do" | "in progress" | "done"
+  >(editTask ? editTask.status : "to do");
   const { mutate: addTask } = useAddTask();
   const { mutate: deleteTask } = useDeleteTask();
   const { mutate: updateTask } = useUpdateTask();
+
   function deleteTaskHandler(id: string) {
     deleteTask(id);
   }
@@ -41,6 +45,20 @@ export function useTaskPageHandlers() {
       setEditTask(null);
     }
   }
+  function updateTaskStatusHandler(
+    id: string,
+    newStatus: "to do" | "in progress" | "done",
+  ) {
+    const currentTask = tasks.find((task) => task.id === id);
+    if (!currentTask) return;
+
+    const updatedTask = {
+      ...currentTask,
+      status: newStatus,
+    };
+
+    updateTask(updatedTask);
+  }
   function openTaskModalHandler() {
     setIsTaskModalOpen(true);
   }
@@ -48,19 +66,23 @@ export function useTaskPageHandlers() {
     setEditTask(null);
     setIsTaskModalOpen(false);
   }
+
   return {
     tasks,
     search,
-    setSearch,
     isLoading,
     isError,
     isTaskModalOpen,
     editTask,
+    taskStatus,
+    setSearch,
     deleteTaskHandler,
     addTaskHandler,
     editTaskHandler,
     updateTasksHandler,
     openTaskModalHandler,
     closeAddTaskModalHandler,
+    setTaskStatus,
+    updateTaskStatusHandler,
   };
 }

@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { Modal } from "../components/Modal.tsx";
 import { useTaskPageHandlers } from "../features/tasks/hooks/useTaskPageHandlers.tsx";
 import { TaskSearch } from "../features/tasks/components/TaskSearch.tsx";
+import { Select } from "../components/Select.tsx";
 export function TasksPage() {
   const {
     tasks,
@@ -20,6 +21,7 @@ export function TasksPage() {
     updateTasksHandler,
     openTaskModalHandler,
     closeAddTaskModalHandler,
+    updateTaskStatusHandler,
   } = useTaskPageHandlers();
   if (isLoading) {
     return (
@@ -38,36 +40,53 @@ export function TasksPage() {
     );
   }
   return (
-    <main>
-      <h1> Task-manager</h1>
-      <Button children={"Add a task"} onClick={openTaskModalHandler} />
-      {isTaskModalOpen &&
-        createPortal(
-          <Modal
-            closeAddTaskModalHandler={closeAddTaskModalHandler}
-            children={
-              <TaskForm
-                onAddTask={addTaskHandler}
-                editTask={editTask}
-                onUpdateTask={updateTasksHandler}
-              />
-            }
-          />,
-          document.body,
-        )}
-
-      <TaskSearch search={search} setSearch={setSearch} />
-      <section className="tasks">
+    <>
+      <header>
         <div className="container-wrapper">
-          <ul className="task-list">
-            <TaskList
-              data={tasks}
-              onDeleteTask={deleteTaskHandler}
-              onEditTask={editTaskHandler}
-            />
-          </ul>
+          <h1> Task-manager</h1>
+          <Button children={"Add a task"} onClick={openTaskModalHandler} />
+          {isTaskModalOpen &&
+            createPortal(
+              <Modal
+                closeAddTaskModalHandler={closeAddTaskModalHandler}
+                children={
+                  <TaskForm
+                    onAddTask={addTaskHandler}
+                    editTask={editTask}
+                    onUpdateTask={updateTasksHandler}
+                  />
+                }
+              />,
+              document.body,
+            )}
         </div>
-      </section>
-    </main>
+      </header>
+      <main>
+        <section className="search-panel">
+          <TaskSearch search={search} setSearch={setSearch} />
+
+          <Select
+            options={[
+              { value: "", label: "All priorities" },
+              { value: "low", label: "Low" },
+              { value: "medium", label: "Medium" },
+              { value: "high", label: "High" },
+            ]}
+          />
+        </section>
+        <section className="tasks">
+          <div className="container-wrapper">
+            <ul className="task-list">
+              <TaskList
+                data={tasks}
+                onDeleteTask={deleteTaskHandler}
+                onEditTask={editTaskHandler}
+                onUpdateTaskStatus={updateTaskStatusHandler}
+              />
+            </ul>
+          </div>
+        </section>
+      </main>
+    </>
   );
 }

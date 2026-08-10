@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styles from "./TaskForm.module.css";
 import type { NewTask } from "../types";
+import { Select } from "../../../components/Select";
+import { useTaskPageHandlers } from "../hooks/useTaskPageHandlers";
 
 interface TaskFormProps {
   onAddTask: (newTask: NewTask) => void;
@@ -16,7 +18,10 @@ export function TaskForm({ onAddTask, editTask, onUpdateTask }: TaskFormProps) {
   const [taskDescription, setTaskDescription] = useState(
     editTask ? editTask.description : "",
   );
-
+  const { taskStatus, setTaskStatus } = useTaskPageHandlers();
+  // const [taskStatus, setTaskStatus] = useState<
+  //   "to do" | "in progress" | "done"
+  // >(editTask ? editTask.status : "to do");
   function addTask(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     if (editTask) {
@@ -24,6 +29,7 @@ export function TaskForm({ onAddTask, editTask, onUpdateTask }: TaskFormProps) {
         title: taskName,
         description: taskDescription,
         priority: taskPriority,
+        status: taskStatus,
         id: editTask.id,
       };
       onUpdateTask(updatedTask);
@@ -32,6 +38,7 @@ export function TaskForm({ onAddTask, editTask, onUpdateTask }: TaskFormProps) {
         title: taskName,
         description: taskDescription,
         priority: taskPriority,
+        status: taskStatus,
         id: crypto.randomUUID(),
       };
       onAddTask(newTask);
@@ -39,6 +46,7 @@ export function TaskForm({ onAddTask, editTask, onUpdateTask }: TaskFormProps) {
     setTaskName("");
     setTaskDescription("");
     setTaskPriority("high");
+    setTaskStatus("to do");
   }
 
   return (
@@ -60,21 +68,35 @@ export function TaskForm({ onAddTask, editTask, onUpdateTask }: TaskFormProps) {
         />
       </label>
 
-      <label htmlFor="task-priority">
+      <label htmlFor="task-priority" style={{ width: "45%" }}>
         Priority
-        <select
+        <Select
           id="task-priority"
           value={taskPriority}
           onChange={(e) =>
             setTaskPriority(e.target.value as "high" | "middle" | "low")
           }
-        >
-          <option value="high">High</option>
-          <option value="middle">Middle</option>
-          <option value="low">Low</option>
-        </select>
+          options={[
+            { value: "high", label: "high" },
+            { value: "middle", label: "middle" },
+            { value: "low", label: "low" },
+          ]}
+        />
       </label>
-
+      <label htmlFor="task-status" style={{ width: "45%" }}>
+        Status
+        <Select
+          value={taskStatus}
+          options={[
+            { value: "to do", label: "to do" },
+            { value: "in progress", label: "in progress" },
+            { value: "done", label: "done" },
+          ]}
+          onChange={(e) =>
+            setTaskStatus(e.target.value as "to do" | "in progress" | "done")
+          }
+        />
+      </label>
       <label htmlFor="task-description">
         Description
         <textarea

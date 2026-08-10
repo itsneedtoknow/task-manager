@@ -11,6 +11,35 @@
       "description": "very beautiful",
       "priority": "high",
       "id": "BBTXf4tbxtM"
+    },
+    {
+      "title": "blabla",
+      "description": ",m.m,,,,,,ssss",
+      "priority": "middle",
+      "id": "aJi4wmJRFiI",
+      "status": "done"
+    },
+    {
+      "title": "st",
+      "description": ",m.m,,,,,,ssss",
+      "priority": "middle",
+      "status": "in progress",
+      "id": "aJi4wmFiI"
+    },
+    {
+      "title": "new task",
+      "description": "s;;smmrk",
+      "priority": "low",
+      "status": "to do",
+      "id": "qgGRolKKxlg"
+    },
+    {
+      "title": "rrrrrrrrrrr",
+      "description": "",
+      "priority": "high",
+      "status": "in progress",
+      "id": "R14Q248l6B4"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
