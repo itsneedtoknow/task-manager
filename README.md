@@ -7,7 +7,7 @@
 Приложение использует `json-server` для имитации базы данных. Запустите его на порту **3000**:
 
 ```bash
-npm json-server --watch db.json --port 3001
+npm json-server --watch db.json --port 3000
 ```
 
 ### Запуск фронтенда (React + Vite)
