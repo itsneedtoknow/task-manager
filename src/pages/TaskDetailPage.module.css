@@ -60,7 +60,6 @@
   margin: 0 0 24px 0;
 }
 
-/* Сетка инфо-панели */
 .metaGrid {
   display: grid;
   grid-template-columns: 120px 1fr;
@@ -78,7 +77,6 @@
   font-weight: 500;
 }
 
-/* Описание */
 .descriptionSection h3,
 .subtasksSection h3 {
   font-size: 14px;
@@ -94,7 +92,6 @@
   margin-bottom: 24px;
 }
 
-/* Подзадачи */
 .subtasksHeader {
   display: flex;
   justify-content: space-between;
@@ -151,7 +148,6 @@
   color: #94a3b8;
 }
 
-/* Подвал модалки */
 .footer {
   display: flex;
   justify-content: space-between;
@@ -202,7 +198,6 @@
   font-weight: 500;
 }
 
-/* Статусы и Приоритеты (Цветовые схемы Баджей) */
 .dot {
   width: 6px;
   height: 6px;
@@ -211,7 +206,6 @@
   margin-right: 6px;
 }
 
-/* Цвета для ин прогресс */
 .status-inprogress,
 .status-in_progress {
   color: #ea580c;
@@ -222,7 +216,6 @@
   background-color: #ea580c;
 }
 
-/* Цвета для туду */
 .status-todo,
 .status-todo {
   color: #475569;
@@ -232,7 +225,6 @@
   background-color: #475569;
 }
 
-/* Высокий приоритет */
 .priority-high {
   background-color: #fef2f2;
   color: #ef4444;
