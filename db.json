@@ -1,12 +1,60 @@
 {
   "tasks": [
     {
-      "title": "Study Present Perfect Task",
-      "description": "Study the theme, do exersises and learn the rules",
+      "id": "a2m4a8apmU4",
+      "title": "Study Present Perfect Tense",
+      "description": "Study the theme, do exercises on page 45 and learn the irregular verbs list.",
       "priority": "middle",
       "status": "to do",
-      "id": "a2m4a8apmU4",
-      "creationDate": "Aug 11 2026, 04:08 PM"
+      "creationDate": "Aug 11 2026 04:08 PM"
+    },
+    {
+      "id": "b5k9x2n1mQ8",
+      "title": "Fix Profile Hydration Bug",
+      "description": "Investigate why the user profile header flickers on initial page load in Safari browser. Check SSR logs.",
+      "priority": "high",
+      "status": "in progress",
+      "creationDate": "Aug 11 2026 11:15 AM"
+    },
+    {
+      "id": "c3v7b8n4mW2",
+      "title": "Prepare Sprint Demo Presentation",
+      "description": "Collect screenshots of the new analytics dashboard and create a slide deck for the client meeting tomorrow.",
+      "priority": "high",
+      "status": "to do",
+      "creationDate": "Aug 11 2026 02:30 PM"
+    },
+    {
+      "id": "d8m1p4q9sL5",
+      "title": "Refactor TaskList Component",
+      "description": "Clean up inline styles, convert prop interfaces to shared types, and double-check key props for list rendering optimization.",
+      "priority": "middle",
+      "status": "done",
+      "creationDate": "Aug 10 2026 09:00 AM"
+    },
+    {
+      "id": "e4z2x9w7rT1",
+      "title": "Update Project Dependencies",
+      "description": "Run npm outdated. Update React Icons and TanStack Query to the latest patch version. Test if anything breaks.",
+      "priority": "low",
+      "status": "in progress",
+      "creationDate": "Aug 10 2026 05:20 PM"
+    },
+    {
+      "id": "f9t6y3u2iO0",
+      "title": "Gym Session - Leg Day",
+      "description": "Squats 4x10, Lunges 3x12, and 20 minutes of light cardio on the treadmill afterwards.",
+      "priority": "low",
+      "status": "to do",
+      "creationDate": "Aug 11 2026 08:00 AM"
+    },
+    {
+      "id": "g1h4j7k9lP3",
+      "title": "Code Review: Pull Request #42",
+      "description": "Review the authentication logic added by the junior developer. Pay attention to token storage in localStorage.",
+      "priority": "high",
+      "status": "done",
+      "creationDate": "Aug 09 2026 03:45 PM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
