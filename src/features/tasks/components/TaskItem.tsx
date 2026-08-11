@@ -1,5 +1,5 @@
 import styles from "./TaskItem.module.css";
-import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiPencil, HiTrash, HiEye } from "react-icons/hi";
 import { Button } from "../../../components/Button";
 import { Select } from "../../../components/Select";
 
@@ -15,6 +15,7 @@ interface TaskItemProps {
     id: string,
     status: "to do" | "in progress" | "done",
   ) => void;
+  onOpenBtnClick: (id: string) => void;
 }
 
 export function TaskItem({
@@ -26,6 +27,7 @@ export function TaskItem({
   onDeleteTask,
   onEditTask,
   onUpdateTaskStatus,
+  onOpenBtnClick,
 }: TaskItemProps) {
   const priorityClass = styles[`priority-${priority}`];
 
@@ -39,34 +41,45 @@ export function TaskItem({
     const newStatus = e.target.value as "to do" | "in progress" | "done";
     onUpdateTaskStatus(id, newStatus);
   }
+  function openTaskDetailHandler() {
+    onOpenBtnClick(id);
+  }
   return (
     <li className={styles.taskItem} key={id} id={id}>
-      <p className={styles.itemName}>{name}</p>
-      <p className={`${styles.itemPriority} ${priorityClass}`}>{priority}</p>
+      <div className={styles.taskItemLeft}>
+        <p className={styles.itemName}>{name}</p>
+        <p>{description}</p>
+      </div>
+      <div className={styles.taskItemRight}>
+        <p className={`${styles.itemPriority} ${priorityClass}`}>{priority}</p>
 
-      <p>{description}</p>
-
-      <div className={styles.actions}>
-        <Button
-          title="Edit"
-          children={<HiPencil />}
-          onClick={editItemHandler}
-        />
-        <Button
-          title="Delete"
-          children={<HiTrash />}
-          className={`${styles.btnDelete} `}
-          onClick={deleteItemHandler}
-        />
-        <Select
-          value={status}
-          options={[
-            { value: "to do", label: "to do" },
-            { value: "in progress", label: "in progress" },
-            { value: "done", label: "done" },
-          ]}
-          onChange={changeStatusHandler}
-        />
+        <div className={styles.actions}>
+          <Button
+            title="Edit"
+            children={<HiPencil />}
+            onClick={editItemHandler}
+          />
+          <Button
+            title="Open"
+            children={<HiEye />}
+            onClick={openTaskDetailHandler}
+          />
+          <Button
+            title="Delete"
+            children={<HiTrash />}
+            className={`${styles.btnDelete} `}
+            onClick={deleteItemHandler}
+          />
+          <Select
+            value={status}
+            options={[
+              { value: "to do", label: "to do" },
+              { value: "in progress", label: "in progress" },
+              { value: "done", label: "done" },
+            ]}
+            onChange={changeStatusHandler}
+          />
+        </div>
       </div>
     </li>
   );

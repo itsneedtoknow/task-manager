@@ -11,7 +11,10 @@ export function useTaskPageHandlers() {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search);
   const { data: tasks = [], isLoading, isError } = useTasks(debouncedSearch);
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<"null" | "task" | "detail">(
+    "null",
+  );
+  const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const [editTask, setEditTask] = useState<NewTask | null>(null);
   const [taskStatus, setTaskStatus] = useState<
     "to do" | "in progress" | "done"
@@ -37,7 +40,7 @@ export function useTaskPageHandlers() {
       return;
     }
     setEditTask(taskToEdit);
-    openTaskModalHandler();
+    setModalType("task");
   }
   function updateTasksHandler(updatedTask: NewTask) {
     if (!updatedTask) {
@@ -62,28 +65,26 @@ export function useTaskPageHandlers() {
 
     updateTask(updatedTask);
   }
-
-  // function filterTasksByPriorityHandler(
-  //   e: React.ChangeEvent<HTMLSelectElement>,
-  // ) {
-  //   const newPriority = e.target.value as "low" | "middle" | "high";
-  //   const filteredTasks = tasks.filter((item) => item.priority === newPriority);
-  // }
+  function openDetailTaskHandler(id: string) {
+    setActiveTaskId(id);
+    setModalType("detail");
+  }
   function filterTasksByPriorityHandler(
     e: React.ChangeEvent<HTMLSelectElement>,
   ) {
     setPriorityFilter(e.target.value as "" | "low" | "middle" | "high");
   }
   const filteredTasks = tasks.filter((task) => {
-    if (priorityFilter === "") return true; // Если "All", показываем всё
+    if (priorityFilter === "") return true;
     return task.priority === priorityFilter;
   });
-  function openTaskModalHandler() {
-    setIsTaskModalOpen(true);
+  function openTaskModalHandler(type: "task" | "detail") {
+    setModalType(type);
   }
   function closeAddTaskModalHandler() {
     setEditTask(null);
-    setIsTaskModalOpen(false);
+    setModalType("null");
+    setActiveTaskId(null);
   }
 
   return {
@@ -92,10 +93,12 @@ export function useTaskPageHandlers() {
     priorityFilter,
     isLoading,
     isError,
-    isTaskModalOpen,
     editTask,
     taskStatus,
+    modalType,
+    activeTaskId,
     setSearch,
+    setModalType,
     deleteTaskHandler,
     addTaskHandler,
     editTaskHandler,
@@ -105,5 +108,6 @@ export function useTaskPageHandlers() {
     setTaskStatus,
     updateTaskStatusHandler,
     filterTasksByPriorityHandler,
+    openDetailTaskHandler,
   };
 }

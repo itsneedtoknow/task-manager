@@ -6,6 +6,7 @@ import { Modal } from "../components/Modal.tsx";
 import { useTaskPageHandlers } from "../features/tasks/hooks/useTaskPageHandlers.tsx";
 import { TaskSearch } from "../features/tasks/components/TaskSearch.tsx";
 import { Select } from "../components/Select.tsx";
+import { TaskDetailPage } from "./TaskDetailPage.tsx";
 export function TasksPage() {
   const {
     tasks,
@@ -13,9 +14,10 @@ export function TasksPage() {
     setSearch,
     isLoading,
     isError,
-    isTaskModalOpen,
     editTask,
     priorityFilter,
+    modalType,
+    activeTaskId,
     deleteTaskHandler,
     addTaskHandler,
     editTaskHandler,
@@ -24,6 +26,8 @@ export function TasksPage() {
     closeAddTaskModalHandler,
     updateTaskStatusHandler,
     filterTasksByPriorityHandler,
+    openDetailTaskHandler,
+    // setModalType,
   } = useTaskPageHandlers();
   if (isLoading) {
     return (
@@ -46,8 +50,11 @@ export function TasksPage() {
       <header>
         <div className="container-wrapper">
           <h1> Task-manager</h1>
-          <Button children={"Add a task"} onClick={openTaskModalHandler} />
-          {isTaskModalOpen &&
+          <Button
+            children={"Add a task"}
+            onClick={() => openTaskModalHandler("task")}
+          />
+          {modalType === "task" &&
             createPortal(
               <Modal
                 closeAddTaskModalHandler={closeAddTaskModalHandler}
@@ -88,7 +95,27 @@ export function TasksPage() {
                 onDeleteTask={deleteTaskHandler}
                 onEditTask={editTaskHandler}
                 onUpdateTaskStatus={updateTaskStatusHandler}
+                // onOpenTaskDetail={() => {
+                //   openTaskModalHandler("detail");
+                // }}
+                onOpenBtnClick={openDetailTaskHandler}
               />
+              {modalType === "detail" &&
+                activeTaskId &&
+                createPortal(
+                  <Modal
+                    closeAddTaskModalHandler={closeAddTaskModalHandler}
+                    children={
+                      <TaskDetailPage
+                        id={activeTaskId}
+                        // onAddTask={addTaskHandler}
+                        // editTask={editTask}
+                        // onUpdateTask={updateTasksHandler}
+                      />
+                    }
+                  />,
+                  document.body,
+                )}
             </ul>
           </div>
         </section>

@@ -1,6 +1,7 @@
 .taskItem {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
   padding: 16px;
   margin-bottom: 12px;
@@ -12,7 +13,14 @@
     transform 0.2s,
     box-shadow 0.2s;
 }
-
+.taskItemLeft {
+  width: 70%;
+}
+.taskItemRight {
+  display: flex;
+  width: 30%;
+  gap: 32px;
+}
 .taskItem:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);

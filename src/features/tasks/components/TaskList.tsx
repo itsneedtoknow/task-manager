@@ -16,12 +16,15 @@ interface TaskListProps {
     id: string,
     newStatus: "to do" | "in progress" | "done",
   ) => void;
+  onOpenBtnClick: (id: string) => void;
+  // onOpenTaskDetail: (id: string) => void;
 }
 export function TaskList({
   data,
   onDeleteTask,
   onEditTask,
   onUpdateTaskStatus,
+  onOpenBtnClick,
 }: TaskListProps) {
   return (
     <ul className={styles.taskList}>
@@ -36,6 +39,7 @@ export function TaskList({
           onDeleteTask={onDeleteTask}
           onEditTask={onEditTask}
           onUpdateTaskStatus={onUpdateTaskStatus}
+          onOpenBtnClick={onOpenBtnClick}
         />
       ))}
     </ul>
