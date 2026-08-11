@@ -1,0 +1,56 @@
+.formContainer label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+}
+
+.formContainer input,
+.formContainer select,
+.formContainer textarea {
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  background-color: #f8fafc;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.formContainer input:focus,
+.formContainer select:focus,
+.formContainer textarea:focus {
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.formContainer textarea {
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.formContainer button[type="submit"] {
+  margin-top: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.formContainer button[type="submit"]:hover {
+  background-color: #2563eb;
+}
+
+.formContainer button[type="submit"]:active {
+  background-color: #1d4ed8;
+}

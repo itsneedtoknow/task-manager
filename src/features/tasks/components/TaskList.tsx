@@ -1,0 +1,44 @@
+import type { TaskPriority, TaskStatus } from "../types.tsx";
+import { TaskItem } from "./TaskItem.tsx";
+import styles from "./TaskList.module.css";
+
+interface TaskData {
+  id: string;
+  title: string;
+  description: string;
+  priority: TaskPriority;
+  status: TaskStatus;
+}
+interface TaskListProps {
+  data: TaskData[];
+  onDeleteTask: (id: string) => void;
+  onEditTask: (id: string) => void;
+  onUpdateTaskStatus: (id: string, newStatus: TaskStatus) => void;
+  onOpenBtnClick: (id: string) => void;
+}
+export function TaskList({
+  data,
+  onDeleteTask,
+  onEditTask,
+  onUpdateTaskStatus,
+  onOpenBtnClick,
+}: TaskListProps) {
+  return (
+    <ul className={styles.taskList}>
+      {data.map((item) => (
+        <TaskItem
+          key={item.id}
+          id={item.id}
+          name={item.title}
+          description={item.description}
+          status={item.status}
+          priority={item.priority}
+          onDeleteTask={onDeleteTask}
+          onEditTask={onEditTask}
+          onUpdateTaskStatus={onUpdateTaskStatus}
+          onOpenBtnClick={onOpenBtnClick}
+        />
+      ))}
+    </ul>
+  );
+}
