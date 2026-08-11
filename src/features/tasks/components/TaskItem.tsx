@@ -2,19 +2,17 @@ import styles from "./TaskItem.module.css";
 import { HiPencil, HiTrash, HiEye } from "react-icons/hi";
 import { Button } from "../../../components/Button";
 import { Select } from "../../../components/Select";
+import type { TaskPriority, TaskStatus } from "../types";
 
 interface TaskItemProps {
   id: string;
   name: string;
   description: string;
-  priority: "high" | "middle" | "low";
-  status: "to do" | "in progress" | "done";
+  priority: TaskPriority;
+  status: TaskStatus;
   onDeleteTask: (id: string) => void;
   onEditTask: (id: string) => void;
-  onUpdateTaskStatus: (
-    id: string,
-    status: "to do" | "in progress" | "done",
-  ) => void;
+  onUpdateTaskStatus: (id: string, status: TaskStatus) => void;
   onOpenBtnClick: (id: string) => void;
 }
 
@@ -38,7 +36,7 @@ export function TaskItem({
     onEditTask(id);
   }
   function changeStatusHandler(e: React.ChangeEvent<HTMLSelectElement>) {
-    const newStatus = e.target.value as "to do" | "in progress" | "done";
+    const newStatus = e.target.value as TaskStatus;
     onUpdateTaskStatus(id, newStatus);
   }
   function openTaskDetailHandler() {

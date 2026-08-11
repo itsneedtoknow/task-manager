@@ -1,5 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { addTask, deleteTask, fetchTasks, updateTask } from "../taskAPI";
+import {
+  addTask,
+  deleteTask,
+  fetchTasks,
+  updateTask,
+  fetchDetailedTask,
+} from "../taskAPI";
 
 export function useTasks(searchQuery?: string, statusQuery?: string) {
   return useQuery({
@@ -34,5 +40,12 @@ export function useUpdateTask() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },
+  });
+}
+export function useDetailTask(id: string) {
+  return useQuery({
+    queryKey: ["tasks", id],
+
+    queryFn: () => fetchDetailedTask(id),
   });
 }

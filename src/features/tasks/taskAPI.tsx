@@ -1,5 +1,6 @@
 import type { NewTask } from "./types";
 const URL = "http://localhost:3000/tasks";
+
 export async function fetchTasks(
   searchQuery?: string,
   statusQuery?: string,
@@ -12,13 +13,15 @@ export async function fetchTasks(
   } else {
     url = "http://localhost:3000/tasks";
   }
-  // = searchQuery
-  //   ? `http://localhost:3000/tasks?title:contains=${encodeURIComponent(searchQuery)}`
-  //   : "http://localhost:3000/tasks";
 
   const taskData = await fetch(url);
   const tasks = await taskData.json();
   return tasks;
+}
+export async function fetchDetailedTask(id: string) {
+  const taskItemData = await fetch(`http://localhost:3000/tasks/${id}`);
+  const taskItem = await taskItemData.json();
+  return taskItem;
 }
 export async function addTask(newTask: NewTask): Promise<NewTask> {
   const taskData = await fetch(URL, {

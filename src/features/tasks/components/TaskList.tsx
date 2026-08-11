@@ -1,3 +1,4 @@
+import type { TaskPriority, TaskStatus } from "../types.tsx";
 import { TaskItem } from "./TaskItem.tsx";
 import styles from "./TaskList.module.css";
 
@@ -5,19 +6,15 @@ interface TaskData {
   id: string;
   title: string;
   description: string;
-  priority: "high" | "middle" | "low";
-  status: "to do" | "in progress" | "done";
+  priority: TaskPriority;
+  status: TaskStatus;
 }
 interface TaskListProps {
   data: TaskData[];
   onDeleteTask: (id: string) => void;
   onEditTask: (id: string) => void;
-  onUpdateTaskStatus: (
-    id: string,
-    newStatus: "to do" | "in progress" | "done",
-  ) => void;
+  onUpdateTaskStatus: (id: string, newStatus: TaskStatus) => void;
   onOpenBtnClick: (id: string) => void;
-  // onOpenTaskDetail: (id: string) => void;
 }
 export function TaskList({
   data,

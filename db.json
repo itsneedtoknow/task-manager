@@ -1,24 +1,12 @@
 {
   "tasks": [
     {
-      "title": "Brush the teeth",
-      "description": "2 minutes or more",
+      "title": "Study Present Perfect Task",
+      "description": "Study the theme, do exersises and learn the rules",
       "priority": "middle",
       "status": "to do",
-      "id": "j5AA4aJObz8"
-    },
-    {
-      "title": "Buy a cardigan",
-      "description": "very beautiful",
-      "priority": "high",
-      "id": "BBTXf4tbxtM"
-    },
-    {
-      "title": "Some new task ",
-      "description": "with low priority",
-      "priority": "low",
-      "status": "to do",
-      "id": "LboPzf_pOyA"
+      "id": "a2m4a8apmU4",
+      "creationDate": "Aug 11 2026, 04:08 PM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

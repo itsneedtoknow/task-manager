@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styles from "./TaskForm.module.css";
-import type { NewTask } from "../types";
+import type { NewTask, TaskPriority, TaskStatus } from "../types";
 import { Select } from "../../../components/Select";
-import { useTaskPageHandlers } from "../hooks/useTaskPageHandlers";
 
 interface TaskFormProps {
   onAddTask: (newTask: NewTask) => void;
@@ -12,16 +11,15 @@ interface TaskFormProps {
 
 export function TaskForm({ onAddTask, editTask, onUpdateTask }: TaskFormProps) {
   const [taskName, setTaskName] = useState(editTask ? editTask.title : "");
-  const [taskPriority, setTaskPriority] = useState<"high" | "middle" | "low">(
+  const [taskPriority, setTaskPriority] = useState<TaskPriority>(
     editTask ? editTask.priority : "high",
   );
   const [taskDescription, setTaskDescription] = useState(
     editTask ? editTask.description : "",
   );
-  const { taskStatus, setTaskStatus } = useTaskPageHandlers();
-  // const [taskStatus, setTaskStatus] = useState<
-  //   "to do" | "in progress" | "done"
-  // >(editTask ? editTask.status : "to do");
+  const [taskStatus, setTaskStatus] = useState<TaskStatus>(
+    editTask ? editTask.status : "to do",
+  );
   function addTask(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     if (editTask) {
@@ -31,15 +29,27 @@ export function TaskForm({ onAddTask, editTask, onUpdateTask }: TaskFormProps) {
         priority: taskPriority,
         status: taskStatus,
         id: editTask.id,
+        creationDate: editTask.creationDate,
       };
       onUpdateTask(updatedTask);
     } else {
+      const options: Intl.DateTimeFormatOptions = {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      const formattedDate = new Date()
+        .toLocaleDateString("en-US", options)
+        .replace(",", "");
       const newTask = {
         title: taskName,
         description: taskDescription,
         priority: taskPriority,
         status: taskStatus,
         id: crypto.randomUUID(),
+        creationDate: formattedDate,
       };
       onAddTask(newTask);
     }
@@ -73,9 +83,7 @@ export function TaskForm({ onAddTask, editTask, onUpdateTask }: TaskFormProps) {
         <Select
           id="task-priority"
           value={taskPriority}
-          onChange={(e) =>
-            setTaskPriority(e.target.value as "high" | "middle" | "low")
-          }
+          onChange={(e) => setTaskPriority(e.target.value as TaskPriority)}
           options={[
             { value: "high", label: "high" },
             { value: "middle", label: "middle" },
@@ -92,9 +100,7 @@ export function TaskForm({ onAddTask, editTask, onUpdateTask }: TaskFormProps) {
             { value: "in progress", label: "in progress" },
             { value: "done", label: "done" },
           ]}
-          onChange={(e) =>
-            setTaskStatus(e.target.value as "to do" | "in progress" | "done")
-          }
+          onChange={(e) => setTaskStatus(e.target.value as TaskStatus)}
         />
       </label>
       <label htmlFor="task-description">

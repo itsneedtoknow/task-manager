@@ -16,9 +16,6 @@ export function useTaskPageHandlers() {
   );
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const [editTask, setEditTask] = useState<NewTask | null>(null);
-  const [taskStatus, setTaskStatus] = useState<
-    "to do" | "in progress" | "done"
-  >(editTask ? editTask.status : "to do");
   const [priorityFilter, setPriorityFilter] = useState<
     "" | "low" | "middle" | "high"
   >("");
@@ -29,8 +26,25 @@ export function useTaskPageHandlers() {
   function deleteTaskHandler(id: string) {
     deleteTask(id);
   }
-  function addTaskHandler(newTask: NewTask) {
-    addTask(newTask);
+  function addTaskHandler(newTask: Omit<NewTask, "creationDate">) {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    const formattedDate = new Date()
+      .toLocaleDateString("en-US", options)
+      .replace(",", "")
+      .replace(" at", " at");
+
+    const taskWithDate: NewTask = {
+      ...newTask,
+      creationDate: formattedDate,
+    };
+
+    addTask(taskWithDate);
     closeAddTaskModalHandler();
     setEditTask(null);
   }
@@ -51,6 +65,7 @@ export function useTaskPageHandlers() {
       setEditTask(null);
     }
   }
+
   function updateTaskStatusHandler(
     id: string,
     newStatus: "to do" | "in progress" | "done",
@@ -94,7 +109,6 @@ export function useTaskPageHandlers() {
     isLoading,
     isError,
     editTask,
-    taskStatus,
     modalType,
     activeTaskId,
     setSearch,
@@ -105,7 +119,6 @@ export function useTaskPageHandlers() {
     updateTasksHandler,
     openTaskModalHandler,
     closeAddTaskModalHandler,
-    setTaskStatus,
     updateTaskStatusHandler,
     filterTasksByPriorityHandler,
     openDetailTaskHandler,
